@@ -3,6 +3,8 @@
 Create an interactive document reader using Streamlit, Groq, and Llama3 to process PDF documents and answer user queries based on the document content. Leverage advanced embeddings and 
 retrieval techniques for accurate and efficient question answering
 
+![Screenshot 2024-07-24 214044](https://github.com/user-attachments/assets/72e1f522-14e6-48bc-b6d5-6bf7950cd106)
+
 ## Table of Contents
 Prerequisites
 Installation
@@ -28,27 +30,33 @@ Clone the repository:
 
 bash
 Copy code
+
+```python
 git clone https://github.com/your-repo/pinecone-doc-processing.git
 cd pinecone-doc-processing
+```
 Create a virtual environment and activate it:
 
 bash
 Copy code
-python -m venv venv
+```python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 Install the required dependencies:
 
 bash
 Copy code
-pip install -r requirements.txt
+```pip install -r requirements.txt ```
 
 ## Configuration
 Create a .env file in the root directory of the project with the following content:
 
 makefile
 Copy code
+```
 OPENAI_API_KEY=your_openai_api_key
 PINECONE_API_KEY=your_pinecone_api_key
+```
 Replace your_openai_api_key and your_pinecone_api_key with your actual API keys.
 
 ## Usage
@@ -56,18 +64,19 @@ Run the main script:
 
 bash
 Copy code
-python main.py
+```python main.py```
 Follow the prompts to enter your query. Type quit or q to exit the program.
 
 ## Project Structure
 bash
 Copy code
-.
+```.
 ├── main.py
 ├── utils.py
 ├── requirements.txt
 ├── .env
 └── README.md
+```
 main.py: The main script to run the project.
 utils.py: Contains utility functions for document processing, creating embeddings, and querying.
 requirements.txt: Lists the required Python libraries.
@@ -78,27 +87,34 @@ README.md: This file.
 ## Initialize Pinecone
 python
 Copy code
+```
 def initialize_pinecone(api_key):
     return Pinecone(api_key=api_key)
+```
 This function initializes the Pinecone environment with the provided API key.
 
 ## Load and Process Document
 python
 Copy code
+```
 def load_doc(file_path):
     loader = Docx2txtLoader(file_path)
     document = loader.load()
     return document
+```
 python
 Copy code
+```
 def split_docs(document, chunk_size=1000, chunk_overlap=200):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     return text_splitter.split_documents(document)
+```
 These functions load a document from a specified file path and split it into smaller chunks for processing.
 
 ## Create Embeddings
 python
 Copy code
+```
 def create_embeddings(openai_api_key, documents):
     openai.api_key = openai_api_key
     
@@ -111,11 +127,13 @@ def create_embeddings(openai_api_key, documents):
         embedding=embeddings, 
         namespace="adas"
     )
+```
 This function creates embeddings for the document chunks using OpenAI and stores them in Pinecone.
 
 ## Answer Queries
 python
 Copy code
+```
 def answer_query(query):
     llm = ChatOpenAI(
         openai_api_key=os.environ.get("OPENAI_API_KEY"),
@@ -139,6 +157,7 @@ def answer_query(query):
     print(response_with_knowledge, "\n")
     
     return response_with_knowledge
+```
 This function handles user queries by retrieving relevant information from Pinecone and generating responses using OpenAI's language model.
 
 By following this guide, you will be able to set up and run the document processing and query answering system successfully.
